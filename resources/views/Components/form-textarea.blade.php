@@ -1,10 +1,10 @@
 @props([
-    'type' => 'text',
     'name',
     'id' => null,
     'value' => '',
     'disabled' => false,
-    'error' => false
+    'error' => false,
+    'rows' => 3
 ])
 
 @php
@@ -20,11 +20,10 @@
     }
 @endphp
 
-<input 
-    type="{{ $type }}"
+<textarea
     name="{{ $name }}"
     id="{{ $id }}"
-    value="{{ $value }}"
+    rows="{{ $rows }}"
     {{ $disabled ? 'disabled' : '' }}
     {{ $attributes->merge(['class' => $classes]) }}
->
+>{{ $value }}</textarea>

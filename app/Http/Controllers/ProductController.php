@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $products = Product::with('category')
             ->orderBy('name')
             ->paginate(12);
@@ -19,8 +20,9 @@ class ProductController extends Controller
         
         return view('products.index', compact('products', 'categories'));
     }
-
-    public function list(Request $request){
+    
+    public function list(Request $request)
+    {
         $query = Product::with('category');
         
         // Apply search filter
@@ -116,20 +118,52 @@ class ProductController extends Controller
     
     public function edit(Product $product)
     {
+        // Load the category relationship
+        $product->load('category');
         return response()->json($product);
     }
     
     public function update(Request $request, Product $product)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'stock' => 'required|integer|min:0',
-            'status' => 'required|in:Active,Inactive',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        // For inline editing, we only validate the fields that are being updated
+        $rules = [];
+        $data = [];
+        
+        if ($request->has('name')) {
+            $rules['name'] = 'required|string|max:255';
+            $data['name'] = $request->name;
+        }
+        
+        if ($request->has('price')) {
+            $rules['price'] = 'required|numeric|min:0';
+            $data['price'] = $request->price;
+        }
+        
+        if ($request->has('description')) {
+            $rules['description'] = 'required|string';
+            $data['description'] = $request->description;
+        }
+        
+        if ($request->has('category_id')) {
+            $rules['category_id'] = 'required|exists:categories,id';
+            $data['category_id'] = $request->category_id;
+        }
+        
+        if ($request->has('stock')) {
+            $rules['stock'] = 'required|integer|min:0';
+            $data['stock'] = $request->stock;
+        }
+        
+        if ($request->has('status')) {
+            $rules['status'] = 'required|in:Active,Inactive';
+            $data['status'] = $request->status;
+        }
+        
+        if ($request->hasFile('image')) {
+            $rules['image'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+        
+        $validator = Validator::make($request->all(), $rules);
         
         if ($validator->fails()) {
             return response()->json([
@@ -137,8 +171,6 @@ class ProductController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
-        
-        $data = $request->except('image');
         
         if ($request->hasFile('image')) {
             // Delete old image if exists
@@ -150,6 +182,9 @@ class ProductController extends Controller
         }
         
         $product->update($data);
+        
+        // Reload the product with its category
+        $product->load('category');
         
         return response()->json([
             'success' => true,
@@ -172,5 +207,4 @@ class ProductController extends Controller
             'message' => 'Product deleted successfully!'
         ]);
     }
-
 }

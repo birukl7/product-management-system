@@ -7,12 +7,17 @@
         'lg' => 'sm:max-w-lg',
         'xl' => 'sm:max-w-xl',
         '2xl' => 'sm:max-w-2xl',
+        '3xl' => 'sm:max-w-3xl',
+        '4xl' => 'sm:max-w-4xl',
+        '5xl' => 'sm:max-w-5xl',
+        '6xl' => 'sm:max-w-6xl',
+        '7xl' => 'sm:max-w-7xl',
     ][$maxWidth];
 @endphp
 
 <div 
     id="{{ $id }}" 
-    class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center p-4" 
+    class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center p-4 overflow-y-auto" 
     aria-modal="true" 
     role="dialog"
 >
@@ -22,15 +27,15 @@
     ></div>
     
     <div 
-        class="bg-white rounded-lg shadow-xl w-full {{ $maxWidthClass }} z-50 overflow-hidden cursor-default"
+        class="bg-white rounded-xl shadow-xl w-full {{ $maxWidthClass }} z-50 overflow-hidden cursor-default my-8"
         role="dialog"
         aria-labelledby="{{ $id }}-title"
     >
-        <div class="flex items-center justify-between p-4 border-b">
-            <h2 id="{{ $id }}-title" class="text-lg font-semibold">{{ $title }}</h2>
+        <div class="flex items-center justify-between p-5 border-b">
+            <h2 id="{{ $id }}-title" class="text-xl font-semibold text-gray-900">{{ $title }}</h2>
             <button 
                 type="button" 
-                class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500"
+                class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition-colors"
                 data-close-dialog
                 aria-label="Close"
             >
@@ -40,7 +45,7 @@
             </button>
         </div>
         
-        <div class="p-4">
+        <div class="p-5">
             {{ $slot }}
         </div>
     </div>
