@@ -4,13 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     
     <title>{{ $title ?? 'Product Management System' }}</title>
     
     <!-- Styles -->
-    @vite('resources/css/app.css')
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 </head>
-<body class="font-sans antialiased bg-gray-50 text-gray-900">
+<body class=" font-sans bg-gray-50 text-gray-900">
     <div class="min-h-screen flex flex-col">
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -40,7 +44,6 @@
     <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
     
     <!-- Scripts -->
-    @vite('resources/js/app.js')
-    {{ $scripts ?? '' }}
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
