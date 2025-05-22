@@ -75,7 +75,7 @@
                         <div class="editable-field-container">
                             <label class="block text-sm font-medium text-gray-500 mb-1">Price</label>
                             <div class="flex items-baseline">
-                                <span class="text-gray-500 mr-1">$</span>
+                                <span class="text-gray-500 mr-1">ETB</span>
                                 <p id="detail-price" class="text-xl font-bold text-gray-900 editable-field" data-field="price"></p>
                             </div>
                             <div class="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity">
