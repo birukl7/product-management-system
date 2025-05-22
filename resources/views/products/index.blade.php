@@ -60,12 +60,12 @@
   </div>
   
   <div id="pagination-container" class="mt-8 flex flex-col items-center">
-      <div id="pagination-links" class="mb-4">
+      <div id="pagination-links" class="hidden">
           {{ $products->links() }}
       </div>
       <button 
           id="load-more-button" 
-          class="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 hidden"
+          class="px-6 py-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
       >
           Load More Products
       </button>
@@ -75,6 +75,7 @@
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
       </div>
+      <p id="no-more-products" class="text-gray-500 mt-4 hidden">No more products to load</p>
   </div>
   
   <!-- Add/Edit Product Dialog -->
@@ -119,7 +120,7 @@
                   <x-form-label for="product-price" required>Price</x-form-label>
                   <div class="relative">
                       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <span class="text-gray-500 sm:text-sm">$</span>
+                          <span class="text-gray-500 sm:text-sm"> </span>
                       </div>
                       <x-form-input 
                           type="number" 

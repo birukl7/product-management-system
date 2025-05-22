@@ -32,7 +32,7 @@
         <h3 class="text-lg font-semibold line-clamp-1 group-hover:text-gray-700" data-product-name>{{ $product->name }}</h3>
         
         <div class="mt-2 flex items-center justify-between">
-            <p class="text-xl font-bold text-gray-900" data-product-price>${{ number_format($product->price, 2) }}</p>
+            <p class="text-xl font-bold text-gray-900" data-product-price>ETB {{ number_format($product->price, 2) }}</p>
             <div class="text-sm text-gray-500">
                 <span data-product-stock>{{ $product->stock }}</span> in stock
             </div>

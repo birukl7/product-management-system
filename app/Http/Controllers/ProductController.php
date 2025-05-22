@@ -25,17 +25,17 @@ class ProductController extends Controller
     {
         $query = Product::with('category');
         
-        // Apply search filter
+        
         if ($request->has('search') && !empty($request->search)) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
         
-        // Apply category filter
+        
         if ($request->has('category') && !empty($request->category)) {
             $query->where('category_id', $request->category);
         }
         
-        // Apply sorting
+        
         if ($request->has('sort')) {
             switch ($request->sort) {
                 case 'name_asc':
@@ -68,7 +68,9 @@ class ProductController extends Controller
             
             return response()->json([
                 'products' => $productsHtml,
-                'pagination' => $products->links()->toHtml()
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'has_more_pages' => $products->hasMorePages()
             ]);
         }
         
@@ -118,14 +120,12 @@ class ProductController extends Controller
     
     public function edit(Product $product)
     {
-        // Load the category relationship
         $product->load('category');
         return response()->json($product);
     }
     
     public function update(Request $request, Product $product)
     {
-        // For inline editing, we only validate the fields that are being updated
         $rules = [];
         $data = [];
         
@@ -173,7 +173,6 @@ class ProductController extends Controller
         }
         
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($product->image) {
                 Storage::disk('public')->delete($product->image);
             }
@@ -182,8 +181,6 @@ class ProductController extends Controller
         }
         
         $product->update($data);
-        
-        // Reload the product with its category
         $product->load('category');
         
         return response()->json([
@@ -195,7 +192,6 @@ class ProductController extends Controller
     
     public function destroy(Product $product)
     {
-        // Delete image if exists
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
