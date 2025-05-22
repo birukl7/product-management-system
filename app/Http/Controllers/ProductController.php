@@ -32,6 +32,7 @@ class ProductController extends Controller
         
         
         if ($request->has('category') && !empty($request->category)) {
+            
             $query->where('category_id', $request->category);
         }
         
